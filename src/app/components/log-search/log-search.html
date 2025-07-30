@@ -1,1 +1,49 @@
-<p>log-search works!</p>
+<h3>Search Diagnostic Logs</h3>
+
+<form [formGroup]="searchForm" (ngSubmit)="search()">
+  <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+    <div style="display: flex; flex-direction: column;">
+      <label for="vehicleId">Vehicle ID:</label>
+      <input id="vehicleId" type="text" formControlName="vehicleId" />
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <label for="errorCode">Error Code:</label>
+      <input id="errorCode" type="text" formControlName="errorCode" />
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+    <div style="display: flex; flex-direction: column;">
+      <label for="from">From:</label>
+      <input id="from" type="datetime-local" formControlName="from" />
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <label for="to">To:</label>
+      <input id="to" type="datetime-local" formControlName="to" />
+    </div>
+  </div>
+
+  <button type="submit">Search</button>
+</form>
+
+
+<table *ngIf="logs.length">
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Vehicle ID</th>
+      <th>Error Code</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <td>{{ log.timestamp }}</td>
+      <td>{{ log.vehicleId }}</td>
+      <td>{{ log.errorCode }}</td>
+      <td>{{ log.message }}</td>
+    </tr>
+  </tbody>
+</table>
