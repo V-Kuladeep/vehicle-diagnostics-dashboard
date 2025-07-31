@@ -1,25 +1,25 @@
 <h3>Search Diagnostic Logs</h3>
 
 <form [formGroup]="searchForm" (ngSubmit)="search()">
-  <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-    <div style="display: flex; flex-direction: column;">
+  <div style="display: flex; gap: 16px; margin-bottom: 16px">
+    <div style="display: flex; flex-direction: column">
       <label for="vehicleId">Vehicle ID:</label>
       <input id="vehicleId" type="text" formControlName="vehicleId" />
     </div>
 
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column">
       <label for="errorCode">Error Code:</label>
       <input id="errorCode" type="text" formControlName="errorCode" />
     </div>
   </div>
 
-  <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-    <div style="display: flex; flex-direction: column;">
+  <div style="display: flex; gap: 16px; margin-bottom: 16px">
+    <div style="display: flex; flex-direction: column">
       <label for="from">From:</label>
       <input id="from" type="datetime-local" formControlName="from" />
     </div>
 
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column">
       <label for="to">To:</label>
       <input id="to" type="datetime-local" formControlName="to" />
     </div>
@@ -27,7 +27,9 @@
 
   <button type="submit">Search</button>
 </form>
-
+<div *ngIf="showValidationError" class="error">
+  Please fill at least one field to search.
+</div>
 
 <table *ngIf="logs.length">
   <thead>
@@ -42,7 +44,7 @@
     <tr *ngFor="let log of logs">
       <td>{{ log.timestamp }}</td>
       <td>{{ log.vehicleId }}</td>
-      <td>{{ log.errorCode }}</td>
+      <td>{{ log.code }}</td>
       <td>{{ log.message }}</td>
     </tr>
   </tbody>

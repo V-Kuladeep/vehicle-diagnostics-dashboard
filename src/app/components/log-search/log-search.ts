@@ -1,22 +1,28 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { LogService, LogEntry } from '../../services/log';
 @Component({
   selector: 'app-log-search',
-  imports: [ReactiveFormsModule, FormsModule,CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './log-search.html',
   styleUrl: './log-search.scss',
 })
 export class LogSearch {
   searchForm: FormGroup;
-  logs: any[] = [];
+  logs: LogEntry[] = [];
+  showValidationError: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
-  ) {
+    private logService: LogService
+    ) {
     this.searchForm = this.fb.group({
       vehicleId: [''],
       errorCode: [''],
@@ -27,25 +33,29 @@ export class LogSearch {
 
   search() {
     const { vehicleId, errorCode, from, to } = this.searchForm.value;
-    console.log('Search parameters:', { vehicleId, errorCode, from, to });
-    // let params = new HttpParams();
-    // if (vehicleId) {
-    //   params = params.set('vehicleId', vehicleId);
-    // }
-    // if (errorCode) {
-    //   params = params.set('errorCode', errorCode);
-    // }
-    // if (from) {
-    //   params = params.set('from', from);
-    // }
-    // if (to) {
-    //   params = params.set('to', to);
-    // }
-    // this.logs = []; // Clear previous logs
-    // this.http
-    //   .get<any[]>('http://localhost:3000/logs', { params })
-    //   .subscribe((res) => {
-    //     this.logs = res;
-    //   });
+
+    // to validate feilds to check atleast one field is filled
+    if (!vehicleId && !errorCode && !from && !to) {
+      this.showValidationError = true;
+      return;
+    }
+
+    const filters = {
+      vehicle: vehicleId,
+      code: errorCode,
+      from,
+      to,
+    };
+
+    this.logs = [];
+
+    this.logService.getLogs(filters).subscribe({
+      next: (data: LogEntry[]) => {
+        this.logs = data;
+      },
+      error: (err: any) => {
+        console.error('Error fetching logs:', err);
+      },
+    });
   }
 }
