@@ -37,6 +37,7 @@ export class LogSearch {
     // to validate feilds to check atleast one field is filled
     if (!vehicleId && !errorCode && !from && !to) {
       this.loading = false;
+      this.notFound = false;
       this.showValidationError = true;
       return;
     }
