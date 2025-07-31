@@ -29,6 +29,13 @@ export class LogSearch {
       to: [''],
     });
   }
+  reset() {
+    this.searchForm.reset();
+    this.logs = [];
+    this.showValidationError = false;
+    this.loading = false;
+    this.notFound = false;
+  }
 
   search() {
     const { vehicleId, errorCode, from, to } = this.searchForm.value;
@@ -53,6 +60,7 @@ export class LogSearch {
     console.log('filters', filters);
     this.logService.getLogs(filters).subscribe({
       next: (data: any) => {
+        this.notFound = false;
         this.logs = data.data || [];
         this.loading = false;
       },
