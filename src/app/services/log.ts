@@ -25,6 +25,7 @@ export class LogService {
     to?: string;
   }): Observable<LogEntry[]> {
     let params = new HttpParams();
+    console.log('filters2', filters);
 
     if (filters) {
       if (filters.vehicle) params = params.set('vehicle', filters.vehicle);

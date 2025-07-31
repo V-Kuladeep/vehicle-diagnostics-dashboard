@@ -18,11 +18,10 @@ export class LogSearch {
   searchForm: FormGroup;
   logs: LogEntry[] = [];
   showValidationError: boolean = false;
+  loading: boolean = false;
+  notFound: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private logService: LogService
-    ) {
+  constructor(private fb: FormBuilder, private logService: LogService) {
     this.searchForm = this.fb.group({
       vehicleId: [''],
       errorCode: [''],
@@ -33,9 +32,11 @@ export class LogSearch {
 
   search() {
     const { vehicleId, errorCode, from, to } = this.searchForm.value;
+    this.loading = true;
 
     // to validate feilds to check atleast one field is filled
     if (!vehicleId && !errorCode && !from && !to) {
+      this.loading = false;
       this.showValidationError = true;
       return;
     }
@@ -48,13 +49,16 @@ export class LogSearch {
     };
 
     this.logs = [];
-
+    console.log('filters', filters);
     this.logService.getLogs(filters).subscribe({
-      next: (data: LogEntry[]) => {
-        this.logs = data;
+      next: (data: any) => {
+        this.logs = data.data || [];
+        this.loading = false;
       },
       error: (err: any) => {
         console.error('Error fetching logs:', err);
+        this.notFound = err.status === 404;
+        this.loading = false;
       },
     });
   }

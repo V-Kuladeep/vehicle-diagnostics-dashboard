@@ -26,9 +26,14 @@
   </div>
 
   <button type="submit">Search</button>
+  <div *ngIf="showValidationError" class="error">
+    Please fill at least one field to search.
+  </div>
 </form>
-<div *ngIf="showValidationError" class="error">
-  Please fill at least one field to search.
+
+<div *ngIf="loading" class="loader">Loading...</div>
+<div *ngIf="!loading && notFound" class="not-found">
+  No logs found for given details.
 </div>
 
 <table *ngIf="logs.length">
