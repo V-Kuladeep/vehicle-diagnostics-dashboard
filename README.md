@@ -57,5 +57,63 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
 # Github repo
+
 https://github.com/V-Kuladeep/vehicle-diagnostics-dashboard
+
+# Project Structure
+
+src/
+│
+├── app/
+│ ├── components/
+│ │ └── log-search/
+│ │ ├── log-search.html # Component template
+│ │ ├── log-search.scss # Component styles
+│ │ ├── log-search.ts # Component logic
+│ │ └── log-search.spec.ts # Unit tests (optional)
+│ │
+│ ├── services/
+│ │ └── log.service.ts # API service for logs
+│ │
+│ ├── app.config.ts # App configuration (if any)
+│ ├── app.routes.ts # Routing config
+│ ├── app.ts # Root component
+│ ├── app.html / app.scss # Root HTML / Styles
+│ └── app.spec.ts # Root component test
+│
+├── main.ts # App bootstrap
+├── index.html # Entry point HTML
+├── styles.scss # Global styles
+
+**Here in the above i am using app.config for importing modules like form and other to apply over application**
+
+### Prerequisites
+
+- Node.js ≥ 16.x
+- Angular CLI ≥ 15.x  
+  Install Angular CLI:
+  npm install -g @angular/cli
+
+# Clone the repository:
+
+git clone <your-repo-url>
+cd <project-folder>
+
+# Install dependencies:
+
+npm install
+
+# Running the App
+
+**Start the development server:**
+ng serve / npm start
+**The app will run at:**
+http://localhost:4200/
+
+**[Make sure your backend (Node.js API) is running at http://localhost:3000. }**
+
+# License
+
+**This project is licensed under the MIT License.**
